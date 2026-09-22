@@ -37,3 +37,13 @@ jobs:
 
       - name: Test
         run: pytest
+
+  container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: quality
+
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Build container
+        run: docker build --tag grounded-llm-platform:ci .
