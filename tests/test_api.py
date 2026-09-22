@@ -1,4 +1,5 @@
-from fastapi.testclient import TestClient
+import httpx
+import pytest
 
 from grounded_llm.api import create_app
 from grounded_llm.models import GenerationRequest, ModelDraft
@@ -16,28 +17,30 @@ class ApiProvider:
         )
 
 
-def test_index_then_query_roundtrip():
+@pytest.mark.asyncio
+async def test_index_then_query_roundtrip():
     service = GroundedAnswerService(retriever=BM25Retriever(), provider=ApiProvider())
-    client = TestClient(create_app(service))
+    transport = httpx.ASGITransport(app=create_app(service))
+    async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
+        index_response = await client.post(
+            "/v1/index",
+            json={
+                "documents": [
+                    {
+                        "source_id": "manual",
+                        "text": "Emergency stop removes motion permission.",
+                    }
+                ]
+            },
+        )
+        assert index_response.status_code == 200
+        assert index_response.json()["indexed_chunks"] == 1
 
-    index_response = client.post(
-        "/v1/index",
-        json={
-            "documents": [
-                {
-                    "source_id": "manual",
-                    "text": "Emergency stop removes motion permission.",
-                }
-            ]
-        },
-    )
-    assert index_response.status_code == 200
-    assert index_response.json()["indexed_chunks"] == 1
+        query_response = await client.post(
+            "/v1/query",
+            json={"query": "What does emergency stop remove?", "top_k": 5},
+        )
 
-    query_response = client.post(
-        "/v1/query",
-        json={"query": "What does emergency stop remove?", "top_k": 5},
-    )
     assert query_response.status_code == 200
     body = query_response.json()
     assert body["abstained"] is False
