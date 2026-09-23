@@ -1,3 +1,5 @@
+import pytest
+
 from grounded_llm.benchmark import RetrievalEvalCase, evaluate_retrieval
 from grounded_llm.models import Document
 from grounded_llm.retrieval import BM25Retriever, chunk_documents
@@ -46,7 +48,7 @@ def test_retrieval_benchmark_reports_rank_metrics_and_negative_zero_hits():
 
 
 def test_retrieval_benchmark_rejects_ambiguous_case_contract():
-    try:
+    with pytest.raises(ValueError, match="cannot both abstain"):
         evaluate_retrieval(
             _retriever(),
             [
@@ -58,7 +60,3 @@ def test_retrieval_benchmark_rejects_ambiguous_case_contract():
                 )
             ],
         )
-    except ValueError as exc:
-        assert "cannot both abstain" in str(exc)
-    else:
-        raise AssertionError("Ambiguous evaluation case was accepted")
