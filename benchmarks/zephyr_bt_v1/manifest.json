@@ -1,0 +1,59 @@
+{
+  "name": "zephyr-bluetooth-shell-v1",
+  "upstream_repository": "zephyrproject-rtos/zephyr",
+  "upstream_commit": "70be2ff0b565a3313128f5577f51cfeb3ebcf602",
+  "retrieved_at": "2026-09-23",
+  "license": "Apache-2.0",
+  "license_url": "https://github.com/zephyrproject-rtos/zephyr/blob/70be2ff0b565a3313128f5577f51cfeb3ebcf602/LICENSE",
+  "chunking": {
+    "max_words_per_chunk": 180,
+    "overlap_lines": 2
+  },
+  "retriever": {
+    "name": "bm25",
+    "k1": 1.5,
+    "b": 0.75
+  },
+  "documents": [
+    {
+      "source_id": "bt-shell",
+      "path": "doc/services/connectivity/bluetooth/bluetooth-shell.rst",
+      "local_name": "bt-shell.rst",
+      "raw_url": "https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/70be2ff0b565a3313128f5577f51cfeb3ebcf602/doc/services/connectivity/bluetooth/bluetooth-shell.rst",
+      "git_blob_sha": "98f5f668fd92b739655f8355ec4a71b3872faf07",
+      "sha256": "2fa6417e055de254b065605217e4fa370c2067b9c557d9c4e0d3046c671d8112"
+    },
+    {
+      "source_id": "spp-shell",
+      "path": "doc/services/connectivity/bluetooth/shell/classic/spp.rst",
+      "local_name": "spp-shell.rst",
+      "raw_url": "https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/70be2ff0b565a3313128f5577f51cfeb3ebcf602/doc/services/connectivity/bluetooth/shell/classic/spp.rst",
+      "git_blob_sha": "e62e617d29bdf7e384fcc9800b985c5874087b73",
+      "sha256": "366b7e234d6b993f2ced87d6ae0be5be9d150b89c57354d9d6cd145cc978c81f"
+    },
+    {
+      "source_id": "classic-l2cap-shell",
+      "path": "doc/services/connectivity/bluetooth/shell/classic/l2cap.rst",
+      "local_name": "classic-l2cap-shell.rst",
+      "raw_url": "https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/70be2ff0b565a3313128f5577f51cfeb3ebcf602/doc/services/connectivity/bluetooth/shell/classic/l2cap.rst",
+      "git_blob_sha": "325635b2a12d84cd6ccfafc66d100f5cbc265f7a",
+      "sha256": "37d47eb3c7197342c245738106a1bc1f1a410e3a771c0eb7ed5bf2c600f9e970"
+    },
+    {
+      "source_id": "iso-shell",
+      "path": "doc/services/connectivity/bluetooth/shell/host/iso.rst",
+      "local_name": "iso-shell.rst",
+      "raw_url": "https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/70be2ff0b565a3313128f5577f51cfeb3ebcf602/doc/services/connectivity/bluetooth/shell/host/iso.rst",
+      "git_blob_sha": "72410ac7c458dcc8b3a0ba3e5a8159a669c5203a",
+      "sha256": "a2bbaba82b3907a400f1d3cc66f7070aa66eca648ddeca04a390dee4744d341e"
+    },
+    {
+      "source_id": "tmap-shell",
+      "path": "doc/services/connectivity/bluetooth/shell/audio/tmap.rst",
+      "local_name": "tmap-shell.rst",
+      "raw_url": "https://raw.githubusercontent.com/zephyrproject-rtos/zephyr/70be2ff0b565a3313128f5577f51cfeb3ebcf602/doc/services/connectivity/bluetooth/shell/audio/tmap.rst",
+      "git_blob_sha": "8a562a813615718ab90246f971daaedc885763fa",
+      "sha256": "37750ae242a1f43abf0dddb1c50960df323e4172a8df86db8fbf485aa0b50f05"
+    }
+  ]
+}
