@@ -31,3 +31,10 @@ python scripts/run_retrieval_benchmark.py
 
 The report records the corpus and case hashes, chunking parameters, BM25 parameters, exact Git
 commit when available, per-case results, Recall@k, MRR, nDCG@k, and negative zero-hit rate.
+
+## Regression gate
+
+The first measured run established a perfect score on this small development-visible suite.
+`manifest.json` therefore records a 1.0 floor for Recall@5, MRR, nDCG@5, and negative zero-hit
+rate. The gate is a regression contract for this exact corpus/case version, not a claim that BM25
+has perfect retrieval quality in general.
