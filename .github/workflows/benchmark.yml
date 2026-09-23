@@ -48,9 +48,10 @@ jobs:
         run: python scripts/run_retrieval_benchmark.py
 
       - name: Upload machine-readable report
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: zephyr-bt-v1-retrieval-report
           path: benchmark-results/zephyr_bt_v1.json
-          if-no-files-found: error
-          retention-days: 14
+          if-no-files-found: warn
+          retention-days: 90
