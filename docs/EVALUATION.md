@@ -5,11 +5,12 @@
 An LLM application needs two different kinds of evidence:
 
 1. **software evidence** — contracts, error handling, deterministic tests, resource bounds;
-2. **model/system quality evidence** — retrieval success, grounded answer success, abstention, latency, and failure behavior on a declared dataset.
+2. **model/system quality evidence** — retrieval success, grounded answer success, abstention,
+   latency, and failure behavior on a declared dataset.
 
-v0.1 establishes the first category and the evaluation machinery for the second. It does not publish model-quality numbers yet.
+v0.1 establishes the first category and the machinery required to collect the second.
 
-## Current eval contract
+## Synthetic contract evaluation
 
 Each `EvalCase` records:
 
@@ -26,28 +27,54 @@ Each `EvalCase` records:
 - latency p50
 - latency p95
 
-These metrics are intentionally simple. They are sufficient to gate architecture changes without pretending to measure every aspect of answer quality.
+These fixtures verify software behavior. They do not establish real model quality.
 
-## Next evidence gate
+## External-corpus retrieval baseline
 
-The first public benchmark should use a redistributable technical-document corpus and a checked-in case set. It must record:
+M1 begins with `benchmarks/zephyr_bt_v1`, a five-document subset of the Zephyr Bluetooth shell
+documentation pinned to commit `70be2ff0b565a3313128f5577f51cfeb3ebcf602`.
 
-- corpus source/version/hash
-- ingestion configuration
-- retriever configuration
+Reproducibility properties:
+
+- exact upstream repository and commit are recorded;
+- exact source paths and Git blob SHAs are recorded;
+- every downloaded file is verified with SHA-256 before use;
+- the external corpus is not silently vendored or refreshed;
+- chunking and BM25 parameters are versioned in the manifest;
+- cases are checked in as JSONL with stable IDs;
+- machine-readable output records manifest/case hashes and the exact evaluated Git commit.
+
+The retrieval report includes:
+
+- Recall@k
+- mean reciprocal rank (MRR)
+- nDCG@k
+- negative zero-hit rate
+- per-case retrieved sources and miss category
+
+The cases are authored from the same public documents and are visible to developers. This makes
+the suite appropriate for deterministic regression and retriever comparison, but not a hidden
+generalization benchmark.
+
+## Remaining M1 evidence gate
+
+A model-backed public-corpus run must still record:
+
 - provider/model/runtime/version
 - prompt version
-- eval-case version
 - exact commit
-- retrieval hit rate / MRR or nDCG where labels support it
 - grounded task success
 - abstention precision/recall
 - citation validity
+- provider/schema failure counts
 - latency p50/p95
-- failure counts
+- machine-readable per-case results
 
-A dense or hybrid retriever is not accepted as "better" until it improves declared metrics on the same cases.
+Dense or hybrid retrieval is not accepted as "better" until it improves declared metrics on the
+same versioned retrieval cases.
 
 ## Non-claims
 
-Passing unit tests or synthetic fixtures does not establish real-document retrieval quality, factual accuracy, low hallucination rate, prompt-injection resistance, production latency, or production readiness.
+Passing unit tests, synthetic fixtures, or the development-visible retrieval benchmark does not
+establish factual answer accuracy, low hallucination rate, prompt-injection resistance, production
+latency, or production readiness.

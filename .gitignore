@@ -216,3 +216,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local benchmark inputs and generated reports
+.benchmark-cache/
+benchmark-results/

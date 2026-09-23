@@ -1,0 +1,12 @@
+{"case_id":"bt-init","query":"Which command initializes Bluetooth in the shell?","expected_source_ids":["bt-shell"],"should_abstain":false}
+{"case_id":"bt-logging-disable","query":"How can logging for bt_hci_core be disabled at runtime?","expected_source_ids":["bt-shell"],"should_abstain":false}
+{"case_id":"spp-register-channel","query":"Which SPP command registers a server on a specific channel?","expected_source_ids":["spp-shell"],"should_abstain":false}
+{"case_id":"spp-acl-prerequisite","query":"What connection must exist before an SPP connection is created?","expected_source_ids":["spp-shell"],"should_abstain":false}
+{"case_id":"l2cap-connless-kconfig","query":"Which Kconfig option controls connectionless L2CAP?","expected_source_ids":["classic-l2cap-shell"],"should_abstain":false}
+{"case_id":"l2cap-echo-request","query":"Which command sends an L2CAP echo request?","expected_source_ids":["classic-l2cap-shell"],"should_abstain":false}
+{"case_id":"iso-create-cig","query":"Which ISO command creates a connected isochronous group CIG?","expected_source_ids":["iso-shell"],"should_abstain":false}
+{"case_id":"iso-encrypted-big","query":"How is an encrypted BIG created with a broadcast code?","expected_source_ids":["iso-shell"],"should_abstain":false}
+{"case_id":"tmap-init","query":"Which TMAP command initializes and registers TMAS?","expected_source_ids":["tmap-shell"],"should_abstain":false}
+{"case_id":"tmap-discovery","query":"What should both TMAP sides discover on the remote device?","expected_source_ids":["tmap-shell"],"should_abstain":false}
+{"case_id":"negative-wifi","query":"WPA3 SAE PMKID roaming configuration","expected_source_ids":[],"should_abstain":true}
+{"case_id":"negative-filesystem","query":"ext4 mkfs inode journaling options","expected_source_ids":[],"should_abstain":true}

@@ -15,9 +15,11 @@ This is intentionally not a chatbot demo. The engineering surface is the product
 - prompt-injection boundary: retrieved documents are untrusted data, never instructions
 - FastAPI index/query surface
 - deterministic evaluation harness for grounding, abstention, and latency
+- versioned external-corpus retrieval benchmark harness with integrity verification
 - unit/integration tests, Ruff, mypy, GitHub Actions, and a non-root Docker image
 
-No model-quality benchmark claim is made yet. A public-corpus benchmark and dense-retrieval comparison are separate evidence gates.
+No model-quality benchmark claim is made yet. The M1 work starts with a reproducible external
+retrieval baseline; model-backed grounded-answer evaluation remains a separate evidence gate.
 
 ## Architecture
 
@@ -51,6 +53,16 @@ ruff check .
 mypy src
 pytest
 ```
+
+Run the public-corpus retrieval benchmark:
+
+```bash
+python scripts/prepare_benchmark.py
+python scripts/run_retrieval_benchmark.py
+```
+
+The corpus is pinned to an exact Zephyr commit and every downloaded document is verified against
+a checked-in SHA-256 digest before evaluation.
 
 Run against an OpenAI-compatible endpoint:
 
@@ -90,15 +102,23 @@ curl -X POST http://127.0.0.1:8080/v1/query \
 ## Repository map
 
 ```text
-src/grounded_llm/   domain, retrieval, provider, service, eval, API
+src/grounded_llm/   domain, retrieval, provider, service, eval, benchmark, API
 tests/              deterministic regression tests
+benchmarks/         versioned external-corpus manifests and evaluation cases
+scripts/            corpus preparation and benchmark runners
 docs/               architecture, evaluation protocol, roadmap
-.github/workflows/  CI
+.github/workflows/  CI and benchmark verification
 ```
 
 ## Evidence boundary
 
-The repository currently demonstrates **LLM systems engineering**, not general model intelligence. Until the public-corpus evaluation milestone is completed, it makes no claim about real-document answer accuracy, hallucination rate, or production readiness.
+The repository currently demonstrates **LLM systems engineering** and a reproducible retrieval
+benchmark path, not general model intelligence. The external retrieval corpus and cases are public
+and development-visible, so their results are useful for regression and architecture comparison,
+not as a hidden generalization benchmark.
+
+Until model-backed public-corpus evaluation is completed, the project makes no claim about
+real-document answer accuracy, hallucination rate, or production readiness.
 
 See [Architecture](docs/ARCHITECTURE.md), [Evaluation](docs/EVALUATION.md), and [Roadmap](docs/ROADMAP.md).
 
