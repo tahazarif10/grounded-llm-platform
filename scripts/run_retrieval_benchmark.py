@@ -32,6 +32,22 @@ def _git_commit() -> str:
     return completed.stdout.strip()
 
 
+def _quality_gate_failures(summary: dict[str, object], gate: dict[str, float]) -> list[str]:
+    checks = {
+        "recall_at_k": "min_recall_at_k",
+        "mean_reciprocal_rank": "min_mean_reciprocal_rank",
+        "ndcg_at_k": "min_ndcg_at_k",
+        "negative_zero_hit_rate": "min_negative_zero_hit_rate",
+    }
+    failures: list[str] = []
+    for metric, gate_name in checks.items():
+        value = float(summary[metric])
+        minimum = float(gate[gate_name])
+        if value < minimum:
+            failures.append(f"{metric}={value:.6f} is below {gate_name}={minimum:.6f}")
+    return failures
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -93,6 +109,10 @@ def main() -> None:
     retriever.index(chunks)
 
     summary = evaluate_retrieval(retriever, cases, top_k=args.top_k)
+    summary_json = summary.model_dump(mode="json")
+    quality_gate = manifest["quality_gate"]
+    gate_failures = _quality_gate_failures(summary_json, quality_gate)
+
     report = {
         "benchmark": manifest["name"],
         "git_commit": _git_commit(),
@@ -108,7 +128,12 @@ def main() -> None:
         },
         "chunking": chunking,
         "retriever": retriever_config,
-        "summary": summary.model_dump(mode="json"),
+        "quality_gate": {
+            "thresholds": quality_gate,
+            "passed": not gate_failures,
+            "failures": gate_failures,
+        },
+        "summary": summary_json,
     }
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -118,7 +143,11 @@ def main() -> None:
     )
 
     print(json.dumps(report["summary"], indent=2, sort_keys=True))
+    print(json.dumps(report["quality_gate"], indent=2, sort_keys=True))
     print(f"wrote {args.output}")
+
+    if gate_failures:
+        raise SystemExit("Retrieval quality gate failed")
 
 
 if __name__ == "__main__":
