@@ -55,5 +55,11 @@
       "git_blob_sha": "8a562a813615718ab90246f971daaedc885763fa",
       "sha256": "37750ae242a1f43abf0dddb1c50960df323e4172a8df86db8fbf485aa0b50f05"
     }
-  ]
+  ],
+  "quality_gate": {
+    "min_recall_at_k": 1,
+    "min_mean_reciprocal_rank": 1,
+    "min_ndcg_at_k": 1,
+    "min_negative_zero_hit_rate": 1
+  }
 }
